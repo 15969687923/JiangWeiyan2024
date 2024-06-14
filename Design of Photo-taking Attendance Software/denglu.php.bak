@@ -1,0 +1,41 @@
+<?php
+header("Content-type: text/html; charset=utf-8");
+$servername = "localhost:3306";
+$username = "root";
+$password = "861576789n";
+$dbname = "tuqiandb";
+ 
+// 创建连接
+$conn = new mysqli($servername, $username, $password,$dbname);
+$conn->set_charset("utf-8");
+session_start();
+$_SESSION['dianhuahao'] = $_POST['phone'];
+$_SESSION["yonghuming"] = "";
+$_SESSION["touxiang"] = "";
+// 检测连接
+if ($conn->connect_error) {
+    echo "连接失败！";
+	exit(0);
+}
+else{
+	 $sql = "select shoujihao,mima from user where shoujihao = '$_POST[phone]' and mima = '$_POST[password]'";
+        $result = $conn->query($sql);
+        $number = mysqli_num_rows($result);
+        if ($number) {
+			$x = $conn->query("select yonghuming from user where shoujihao = '$_POST[phone]'");
+			$x1 = $x->fetch_array(MYSQLI_ASSOC);
+			$_SESSION["yonghuming"] = $x1['yonghuming'];
+			
+			$y = $conn->query("select touxiang from user where shoujihao = '$_POST[phone]'");
+			$y1 = $y->fetch_array(MYSQLI_ASSOC);
+			$_SESSION["touxiang"] = $y1['touxiang'];
+	//		if($_SESSION["touxiang"]=="")
+		//		$_SESSION["touxiang"] = "1.jpg";
+            echo '<script charset="UTF-8">window.location.href="应用.php";</script>';
+        } else {
+            echo '<script charset="UTF-8">alert("用户名或密码错误！");history.go(-1);</script>';
+        }
+    }
+
+
+?>

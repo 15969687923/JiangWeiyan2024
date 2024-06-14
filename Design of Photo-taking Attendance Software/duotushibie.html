@@ -1,0 +1,140 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.js"></script>
+	<link href="css/mui.min.css" rel="stylesheet"/>
+	 <script src="js/jquery-3.4.1.min.js"></script>
+	<title>多图识别</title>
+	<style>
+		.lan1{
+				background:#09C5F7;
+			}
+			.biao1{
+				color:white;
+			}
+			.zhengti{
+				position: relative;
+				top:45px;
+			}
+	</style>
+	<script>
+//		(function tishi(){
+//			alert("请输入需要的验证图数后点击确定再进行目标图片拍照！")
+//		}());
+	</script>
+	<script>
+		
+		function chongzhi(){
+			location.replace(location.href);
+		}
+	</script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav mui-bar-transparent lan1" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+		<h1 class="mui-title biao1">单图签到</h1>
+			<a href="yingyong.php?type=2"><span class="mui-icon mui-icon-left-nav"></span></a>
+	</header>
+	<div class="zhengti">
+	<div >
+		<form class="mui-input-group" >
+		    <div class="mui-input-row">
+		        <label>您的项目名</label>
+		    	<input type="text" class="mui-input-clear" placeholder="请输入项目名" id="xmname">
+		    </div>
+		    <div class="mui-input-row">
+		        <label>项目介绍</label>
+		        <input type="text" class="mui-input-clear" placeholder="项目介绍" id="xmintroduce">
+		    </div>
+		    <div class="mui-input-row">
+		        <label>开始时间</label>
+		        <input type="datetime-local" value="2019-08-01T08:00:00" id="starttime"/>
+		    </div>
+		    <div class="mui-input-row">
+		        <label>截止时间</label>
+		        <input type="datetime-local" value="2019-08-01T08:00:00" id="endtime"/>
+		    </div>
+		    <div class="mui-input-row">
+		    	<label>验证图数</label>
+		    	<input type="number" placeholder="图片数不大于12" min="1" max="12" style="width: 8em; float: left;" id="tushu"/>
+		    	<!--<button type="button" class="mui-btn mui-btn-primary" style="float: left; width: 6em;" onclick="tushu()">确定</button>-->
+		    </div>
+		    <!--<div id="tupian">
+		    	<div class="mui-input-row" style="height: 30%;">
+			    	<label>目标图片
+			    	<button type="button" class="mui-btn mui-btn-primary" style="float: left; width: 6em;" onclick="paizhao()">拍照</button>
+			    	</label>
+			    	
+			    	<img src="1.jpg" style="height: 90%;width: height;" id="img"/>
+			    </div>
+			    
+		    </div>-->
+		    
+		    <div class="mui-button-row">
+		        <button type="submit" class="mui-btn mui-btn-primary" style="width: 40%;" onmousedown="zonghe()">下一步</button>
+		        <button type="button" class="mui-btn mui-btn-danger" style="width: 40%;" onclick="chongzhi()">重置</button>
+		    </div>
+		</form>
+	</div>
+	</div>
+
+	<script>
+	function chuan(){
+	var x = document.getElementById("xmname").value;
+	var y = document.getElementById("xmintroduce").value;
+	var a = document.getElementById("starttime").value;
+	var b = document.getElementById("endtime").value;
+	var c = document.getElementById("tushu").value;
+	$.ajax({ url: 'duotushibie.php',
+	type: 'post',
+	data:{"name":x,"jieshao":y,"kaishi":a,"jieshu":b,"tushu":c,},
+	dataType:'text',
+	success: function(){
+		
+	}});
+	}
+
+		
+		
+	//	var x="<div class=\"mui-input-row\" style=\"height: 30%;\">"
+	//					+ "<label>目标图片" + "i"
+	//			    	+ "<button type=\"button\" class=\"mui-btn mui-btn-primary\" style=\"float: left; width: 6em;\" >拍照</button>"
+	//			    	+ "</label>"
+	//			    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\"/>"
+	//			        + "</div>";
+	//	for (k=2;k<i;k++) {
+	//		x=x+x;
+	//	}
+	//	document.getElementById("tupian").innerHTML=x;
+		function paizhao(){
+			var i=Number(document.getElementById('tushu').value);
+			window.open("paiyizu.html?"+i);
+		}
+		function zonghe(){
+			var aaaa;
+			aaaa=document.getElementById("tushu").value;
+			if(aaaa==""){
+				alert("请输入图片数！！！");
+			}
+			else{
+				chuan();
+				paizhao();
+			}
+
+		}
+		
+	</script>
+	<!--<script>
+		(function(){
+//			var perimeters = window.location.search;
+//			perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+			var perimeters=JSON.parse(window.sessionStorage.getItem("url"));
+			//alert(perimeters);
+			var num=JSON.parse(window.sessionStorage.getItem("num"));
+			//alert(num);
+			document.getElementById("img" + num).src=perimeters;
+		}());
+	</script>-->
+</body>
+</html>

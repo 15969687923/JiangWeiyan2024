@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>GET VIDEO</title>
+		<meta charset="utf-8">
+		<script>
+			
+		</script>
+		<style>
+			input{
+				float: left;
+				width: 100%;
+				height: 150px;
+				font-size: 30px;
+				margin-top: 15px;
+			}
+			button{
+				float: left;
+				width: 100%;
+				height: 150px;
+				font-size: 30px;
+				margin-top: 15px;
+			}
+			#div1{
+				float: left;
+				width: 25%;
+			}
+		</style>
+	</head>
+	<body>
+	
+	<video id="video" width="100%" height="width" autoplay="autoplay"></video>
+	<canvas id="canvas" width="5px" height="5px"></canvas>
+	<div id="div1">
+		<input type="button" title="开启主摄像头" value="开启主摄像头" onclick="getMedia()" />
+		<input type="button" title="开启自拍摄像头" value="开启自拍摄像头" onclick="getMedia1()" />
+		<input type="button" title="关闭摄像头" value="关闭摄像头" onclick="getMedia2()" />
+		<button id="snap" onclick="takePhoto()">拍照</button>
+		<input type="button" title="使用此照片" value="使用此照片" onclick="csimg()" />
+	</div>
+	<img id="img" src="" height="300px" width="300px" />
+	<script>
+//		"permissions": {
+//		  	"audio-capture": {
+//		    	"description": "Required to capture audio using getUserMedia()"
+//		  	},
+//		  	"video-capture": {
+//		    	"description": "Required to capture video using getUserMedia()"
+//		  	}
+//		}
+
+		(function chushi(){
+			var can1 = document.getElementById('canvas');
+        	can1.height=document.body.clientWidth * 0.75;
+        	can1.width=document.body.clientWidth * 0.75;
+		}());
+			
+        function getMedia() {
+        	
+        	var can1 = document.getElementById('canvas');
+        	can1.height=document.body.clientWidth * 0.75;
+        	can1.width=document.body.clientWidth * 0.75;
+        	
+            let constraints = {
+                video: { facingMode: { exact: "environment" },
+                		width: { min: 1080, ideal: 3500},
+    					height: { min: 1080, ideal: 3500}},
+                audio: false//关闭声音录制
+            };
+            //获得video摄像头区域
+            let video = document.getElementById("video");
+            //这里介绍新的方法，返回一个 Promise对象
+            // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+            // then()是Promise对象里的方法
+            // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+            // 避免数据没有获取到
+            let promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise.then(function (MediaStream) {
+                video.srcObject = MediaStream;
+                video.play();
+            });
+        }
+        
+        function getMedia1() {
+        	
+        	var can1 = document.getElementById('canvas');
+        	can1.height=document.body.clientWidth * 0.75;
+        	can1.width=document.body.clientWidth * 0.75;
+        	
+            let constraints = {
+                video: { facingMode: "user" ,
+                		width: { min: 1080, ideal: 1980},
+    					height: { min: 1080, ideal: 1980}},
+                audio: false//关闭声音录制
+            };
+            //获得video摄像头区域
+            let video = document.getElementById("video");
+            //这里介绍新的方法，返回一个 Promise对象
+            // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+            // then()是Promise对象里的方法
+            // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+            // 避免数据没有获取到
+            let promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise.then(function (MediaStream) {
+                video.srcObject = MediaStream;
+                video.play();
+            });
+        }
+        
+        function getMedia2() {
+        	location.reload();//刷新页面关闭之前的摄像头
+        }
+ 
+	    function takePhoto() {
+		    //获得Canvas对象
+		    let video = document.getElementById("video");
+		    let canvas = document.getElementById("canvas");
+		    let ctx = canvas.getContext('2d');
+		    ctx.drawImage(video, 0, 0, document.body.clientWidth * 0.75, document.body.clientWidth * 0.75);
+	    }
+      
+      	function csimg() {
+      		var canvas = document.getElementById('canvas');
+	      	var image = new Image();
+			image.src = canvas.toDataURL("image/png");
+			var img1 = document.getElementById('img');
+			img1.src = image.src;
+//			return image;
+			downLoad(saveAsPNG(canvas));
+      	}
+ 
+		// 保存成png格式的图片
+		function saveAsPNG(canvas) {
+		    return canvas.toDataURL("image/png");
+		}
+		 
+		// 保存成jpg格式的图片
+		function saveAsJPG(canvas) {
+		    return canvas.toDataURL("image/jpeg");
+		}
+		 
+		// 保存成bmp格式的图片  目前浏览器支持性不好
+		function saveAsBMP(canvas) {
+		    return canvas.toDataURL("image/bmp");
+		}
+		 
+		/**
+		 * @author web得胜
+		 * @param {String} url 需要下载的文件地址
+		 * */
+		function downLoad(url){
+		    var oA = document.createElement("a");
+		    oA.download = 'E:\111.jpg';// 设置下载的文件名，默认是'下载'
+		    oA.href = url;
+		    document.body.appendChild(oA);
+		    oA.click();
+		    oA.remove(); // 下载之后把创建的元素删除
+		}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.js"></script>
+	<link href="css/mui.min.css" rel="stylesheet"/>
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<style type="text/css">
+		#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+		.lan1{
+				background:#09C5F7;
+			}
+			.biao1{
+				color:white;
+			}
+			.zhengti{
+				position: relative;
+				top:45px;
+			}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=fnePbyYOZSPzcfXzITDtXIxsaFPGtyIq"></script>
+	<title>单击获取点击的经纬度</title>
+	<script>
+		(function tishi(){
+			alert("若初始位置不准确请打开GPS并点击地图左下角定位按钮重试！\n请按起点->途径点->终点顺序选择点！")
+		}());
+	</script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav mui-bar-transparent lan1" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+		<h1 class="mui-title biao1">组图打卡</h1>
+			<a href="yingyong.php?type=2"><span class="mui-icon mui-icon-left-nav"></span></a>
+	</header>
+	<div class="zhengti">
+	<div style="height: 60%;" id="mymap"> 
+		<div id="allmap"></div>
+	</div>
+	<div>
+		<form class="mui-input-group">
+			<div class="mui-button-row">
+				<button type="button" class="mui-btn mui-btn-primary" style="width: 40%;" onclick="xianlu()">路线规划</button>
+				<button type="button" class="mui-btn mui-btn-primary" style="width: 40%;" onclick="chongzhimap()">重置地图</button>
+			</div>
+			<!--<div class="mui-input-row">
+				<label style="float: left;width: 8em;margin: 0;">您的位置</label>
+						
+				<p style="float: left;margin-top: 8px;" id="pj"></p>
+				<p style="float: left;margin-top: 8px;">-</p>
+				<p style="float: left;margin-top: 8px;" id="pw"></p>
+			</div>-->
+		    <div class="mui-input-row">
+		        <label>您的项目名</label>
+		    	<input type="text" class="mui-input-clear" placeholder="请输入项目名" id="xmname">
+		    </div>
+		    <div class="mui-input-row">
+		        <label>项目介绍</label>
+		        <input type="text" class="mui-input-clear" placeholder="项目介绍" id="xmintroduce">
+		    </div>
+		    <div class="mui-input-row">
+		        <label>开始时间</label>
+		        <input type="datetime-local" value="2019-08-01T08:00:00" id="starttime"/>
+		    </div>
+		    <div class="mui-input-row">
+		        <label>截止时间</label>
+		        <input type="datetime-local" value="2019-08-01T08:00:00" id="endtime"/>
+		    </div>
+		    <!--<div id="tupian">
+		    	<div class="mui-input-row" style="height: 30%;">
+			    	<label>目标图片
+			    	<button type="button" class="mui-btn mui-btn-primary" style="float: left; width: 6em;" onclick="paizhao()">拍照</button>
+			    	</label>
+			    	
+			    	<img src="1.jpg" style="height: 90%;width: height;"/>
+			    </div>
+			    
+		    </div>-->
+		    
+		    <div class="mui-button-row">
+		        <button type="button" class="mui-btn mui-btn-primary" style="width: 40%;" onclick="zonghe()">下一步</button>
+		        <button type="button" class="mui-btn mui-btn-danger" style="width: 40%;"  onclick="chongzhi()">重置</button>
+		    </div>
+		</form>
+	</div>
+	</div>
+
+<script type="text/javascript">
+	
+	var marker=[];
+	var mkpoint=[];
+	for (i=1;i<=15;i++) {
+		mkpoint[i]= new BMap.Point();
+	}
+	var i=1;
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.968749,36.615657);//初始位置
+	map.centerAndZoom(point,17);
+	var navigationControl = new BMap.NavigationControl({
+	    // 靠左上角位置
+	    anchor: BMAP_ANCHOR_TOP_LEFT,
+	    // LARGE类型
+	    type: BMAP_NAVIGATION_CONTROL_ZOOM,
+	    // 启用显示定位
+	    enableGeolocation: true
+	});
+	map.addControl(navigationControl);
+	
+	var geolocationControl = new BMap.GeolocationControl();
+	geolocationControl.addEventListener("locationSuccess", function(e){
+		map.panTo(e.point);
+		
+	});
+	geolocationControl.addEventListener("locationError",function(e){
+	   	// 定位失败事件
+	    alert(e.message);
+	});
+	map.addControl(geolocationControl);
+	
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			map.panTo(r.point);
+			//alert('您的位置：'+r.point.lng+','+r.point.lat);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+	map.enableScrollWheelZoom(true);
+	//单击获取点击的经纬度
+	map.addEventListener("click",function(e){
+		if(i>12){
+			alert("中间点数量已经达到最大数量！")
+		}
+		else{
+			alert(e.point.lng + "," + e.point.lat);
+//			if(i==1){
+//				for (j=2;j<=15;j++) {
+//					mkpoint[i].lng=e.point.lng;
+//					mkpoint[i].lat=e.point.lat;
+//				}
+//			}
+			mkpoint[i].lng=e.point.lng;
+			mkpoint[i].lat=e.point.lat;
+			marker[i] = new BMap.Marker(e.point);// 创建标注
+			map.addOverlay(marker[i]);             // 将标注添加到地图中
+			marker[i].disableDragging();           // 可拖拽
+//			marker[i].addEventListener("dragend", function (e) { //拖动事件
+//				mkpoint[i].lng=e.point.lng;
+//				mkpoint[i].lat=e.point.lat;
+//		        alert(mkpoint[i].lng + "," + mkpoint[i].lat); //打印拖动结束坐标
+//		    });
+//		    alert(mkpoint[i].lng + "," + mkpoint[i].lat); //打印拖动结束坐标
+			i++;
+		}
+	});
+		var p1;
+		var p2;
+		var p3;
+		var p4;
+		var p5;
+		var p6;
+		var p7;
+		var p8;
+		var p9;
+		var p10;
+		var p11;
+		var p12;
+	function xianlu(){
+		// 百度地图API功能
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom("济南", 15);
+		map.enableScrollWheelZoom(true);
+		
+		 p1 = new BMap.Point(mkpoint[1].lng,mkpoint[1].lat);
+		 p2 = new BMap.Point(mkpoint[2].lng,mkpoint[2].lat);
+		 p3 = new BMap.Point(mkpoint[3].lng,mkpoint[3].lat);
+		 p4 = new BMap.Point(mkpoint[4].lng,mkpoint[4].lat);
+		 p5 = new BMap.Point(mkpoint[5].lng,mkpoint[5].lat);
+		 p6 = new BMap.Point(mkpoint[6].lng,mkpoint[6].lat);
+		 p7 = new BMap.Point(mkpoint[7].lng,mkpoint[7].lat);
+		 p8 = new BMap.Point(mkpoint[8].lng,mkpoint[8].lat);
+		 p9 = new BMap.Point(mkpoint[9].lng,mkpoint[9].lat);
+		 p10 = new BMap.Point(mkpoint[10].lng,mkpoint[10].lat);
+		 p11 = new BMap.Point(mkpoint[11].lng,mkpoint[11].lat);
+		 p12 = new BMap.Point(mkpoint[12].lng,mkpoint[12].lat);
+		
+		if(i==3){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, panel: "r-result", autoViewport: true}});
+			driving.search(p1, p2);//waypoints表示途经点
+			
+		}
+		if(i==4){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, panel: "r-result", autoViewport: true}});
+			driving.search(p1, p3,{waypoints:[p2]});//waypoints表示途经点
+			
+		}
+		if(i==5){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, panel: "r-result", autoViewport: true}});
+			driving.search(p1, p4,{waypoints:[p2,p3]});//waypoints表示途经点
+			
+		}
+		if(i==6){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, panel: "r-result", autoViewport: true}});
+			driving.search(p1, p5,{waypoints:[p2,p3,p4]});//waypoints表示途经点
+			
+		}
+		if(i==7){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p6,{waypoints:[p2,p3,p4,p5]});//waypoints表示途经点
+			
+		}
+		if(i==8){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p7,{waypoints:[p2,p3,p4,p5,p6]});//waypoints表示途经点
+			
+		}
+		if(i==9){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p8,{waypoints:[p2,p3,p4,p5,p6,p7]});//waypoints表示途经点
+			
+		}
+		if(i==10){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p9,{waypoints:[p2,p3,p4,p5,p6,p7,p8]});//waypoints表示途经点
+			
+		}
+		if(i==11){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p10,{waypoints:[p2,p3,p4,p5,p6,p7,p8,p9]});//waypoints表示途经点
+			
+		}
+		if(i==12){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p11,{waypoints:[p2,p3,p4,p5,p6,p7,p8,p9,p10]});//waypoints表示途经点
+			
+		}
+		if(i==13){
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p12,{waypoints:[p2,p3,p4,p5,p6,p7,p8,p9,p10,p11]});//waypoints表示途经点
+			
+		}
+	}
+	
+	function chongzhi(){
+		location.replace(location.href);
+	}
+	function chongzhimap(){
+		location.replace(location.href);
+		document.getElementById("mymap").style.height="60%";
+	}
+	
+	
+//	var x="<div class=\"mui-input-row\" style=\"height: 30%;\">"
+//					+ "<label>目标图片" + "i"
+//			    	+ "<button type=\"button\" class=\"mui-btn mui-btn-primary\" style=\"float: left; width: 6em;\" >拍照</button>"
+//			    	+ "</label>"
+//			    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\"/>"
+//			        + "</div>";
+//	for (k=2;k<i;k++) {
+//		x=x+x;
+//	}
+//	document.getElementById("tupian").innerHTML=x;
+	function paizhao(){
+		//alert(i);
+		i=i-1;
+		window.open("paiyizu.html?"+i);
+	}
+	
+	function chuan(){
+	var x = document.getElementById("xmname").value;
+	var y = document.getElementById("xmintroduce").value;
+	var a = document.getElementById("starttime").value;
+	var b = document.getElementById("endtime").value;
+	var c = i-1;
+	var px1 = mkpoint[1].lng;
+	var px2 = mkpoint[2].lng;
+	var px3 = mkpoint[3].lng;
+	var px4 = mkpoint[4].lng;
+	var px5 = mkpoint[5].lng;
+	var py1 = mkpoint[1].lat;
+	var py2 = mkpoint[2].lat;
+	var py3 = mkpoint[3].lat;
+	var py4 = mkpoint[4].lat;
+	var py5 = mkpoint[5].lat;
+	$.ajax({ url: 'duotushibie.php',
+	type: 'post',
+	data:{"name":x,"jieshao":y,"kaishi":a,"jieshu":b,"tushu":c,"px1":px1,"px2":px2,"px3":px3,"px4":px4,"px5":px5,"py1":py1,"py2":py2,"py3":py3,"py4":py4,"py5":py5,},
+	dataType:'text',
+	success: function(){
+		
+	}});
+	}
+	function zonghe(){
+		chuan();
+		paizhao();
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.js"></script>
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<link href="css/mui.min.css" rel="stylesheet"/>
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin: 0;font-family:"微软雅黑";}
+		.lan1{
+				background:#09C5F7;
+			}
+			.biao1{
+				color:white;
+			}
+			.zhengti{
+				position: relative;
+				top:45px;
+			}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=fnePbyYOZSPzcfXzITDtXIxsaFPGtyIq"></script>
+	<title>浏览器定位</title>
+	<script>
+		(function tishi(){
+			alert("若自动定位不准确或太慢请打开GPS并点击地图左下角定位按钮重试！")
+		}());
+	</script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav mui-bar-transparent lan1" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+		<h1 class="mui-title biao1">单图签到</h1>
+			<a href="yingyong.php?type=2"><span class="mui-icon mui-icon-left-nav"></span></a>
+	</header>
+	<div class="zhengti">
+	<div style="height: 25%;min-height: 170px;">
+		<div id="allmap"></div>
+	</div>
+	
+	<div>
+		<form class="mui-input-group" action="dantu.php" method="post">
+			<div class="mui-input-row">
+				<label style="float: left;width: 8em;margin: 0;">您的位置</label>
+				<p style="float: left;margin-top: 8px;" name="x" id="pj"></p>
+				<p style="float: left;margin-top: 8px;">-</p>
+				<p style="float: left;margin-top: 8px;" name="y" id="pw"></p>
+				<input type="hidden" name="xx" id="m">
+				<input type="hidden" name="yy" id="n">
+				<input type="hidden" name="tu1" id="tu1">
+				
+			</div>
+			
+		    <div class="mui-input-row">
+		        <label>您的项目名</label>
+		    	<input type="text" name="xiangmuming" class="mui-input-clear" placeholder="请输入项目名" id="xmname">
+		    </div>
+		    <div class="mui-input-row">
+		        <label>项目介绍</label>
+		        <input type="text" name="jieshao" class="mui-input-clear" placeholder="项目介绍" id="xmintroduce">
+		    </div>
+		    <div class="mui-input-row">
+		        <label>开始时间</label>
+		        <input type="datetime-local" name="kai" value="2019-08-01T08:00:00" id="starttime"/>
+		    </div>
+		    <div class="mui-input-row">
+		        <label>截止时间</label>
+		        <input type="datetime-local" name="jie" value="2019-08-01T08:00:00" id="endtime"/>
+		    </div>
+		    <!--<div class="mui-input-row" style="height: 30%;">
+		    	<label>目标图片
+		    	<button type="button" class="mui-btn mui-btn-primary" style="float: left; width: 6em;" onclick="paizhao1()">拍照</button>
+		    	</label>
+		    	<img src="1.jpg" style="height: 90%;width: height;" id="img1"/>
+		    </div>-->
+		    <div class="mui-input-row" style="height: 30%;">
+			    <label>目标图片
+			    <button id="upload1" type="button" class="mui-btn-primary mui-btn-outlined" style="width: 6em;">拍照</button>
+			    	<input type="file" style="display: none;" id='image1' accept="image/*" capture='camera' onclick="paizhao1()">
+			    </label>
+			    <!--<button type="button" class="mui-btn mui-btn-primary" style="float: left;">蓝色</button>-->
+			    <img name="mu" src="1.jpg" style="height: 90%;width: height;" id="img1"/>
+			</div>
+		    <div class="mui-button-row">
+		   
+		        <button type="submit" onMouseOver="dili()" class="mui-btn mui-btn-primary" style="width: 40%;">确认</button>
+		        <button type="button" class="mui-btn mui-btn-danger" style="width: 40%;" onclick="chongzhi()">重置</button>
+		    </div>
+		</form>
+
+	</div>
+	</div>
+	<script>
+		var urls=[];
+		(function(){
+//			var perimeters = window.location.search;
+//			perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+			
+			var num=JSON.parse(window.sessionStorage.getItem("num"));
+			//alert(num);
+			for (k=1;k<=num;k++) {
+				//alert(k);
+				urls[k]=JSON.parse(window.sessionStorage.getItem("url" + k));
+				//alert(urls[k]);
+				document.getElementById("img" + k).src=urls[k];
+			}
+			
+		}());
+		function dutu(){
+			var tu1 = $('#img1').src;
+			alert("siwang");
+			mui.post('dantu.php',{
+			'bianma':'3333'}
+			,function(data){
+			},'json');
+		};
+		function dili(){
+		var a = document.getElementById("pj").innerText;
+		var b = document.getElementById("pw").innerText;
+		var c = document.getElementById("img1").src;
+		document.getElementById("m").value = a;
+		document.getElementById("n").value = b;
+		document.getElementById("tu1").value = c;
+		};
+		function jiehe(){
+			dili();
+			dutu();
+		};
+	</script>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.968749,36.615657);//初始位置
+	map.centerAndZoom(point,18);
+	var navigationControl = new BMap.NavigationControl({
+	    // 靠左上角位置
+	    anchor: BMAP_ANCHOR_TOP_LEFT,
+	    // LARGE类型
+	    type: BMAP_NAVIGATION_CONTROL_ZOOM,
+	    // 启用显示定位
+	    enableGeolocation: true
+	});
+	map.addControl(navigationControl);
+	
+	// 添加定位控件
+	var geolocationControl = new BMap.GeolocationControl();
+	geolocationControl.addEventListener("locationSuccess", function(e){
+	    // 定位成功事件
+	    var address = '';
+	    address += e.addressComponent.province;
+	    address += e.addressComponent.city;
+	    address += e.addressComponent.district;
+	    address += e.addressComponent.street;
+	    address += e.addressComponent.streetNumber;
+	    //alert("当前定位地址为：" + address);
+	    
+	    var mk = new BMap.Marker(e.point);
+		map.addOverlay(mk);
+		map.panTo(e.point);
+		alert('您的位置：'+e.point.lng+','+e.point.lat);	
+		var obj1 = document.getElementById("pj");
+		obj1.innerText= e.point.lng.toPrecision(10);//保留十位有效数字
+		var obj2 = document.getElementById("pw");
+		obj2.innerText= e.point.lat.toPrecision(10);
+		
+	});
+	geolocationControl.addEventListener("locationError",function(e){
+	   	// 定位失败事件
+	    alert(e.message);
+	});
+	map.addControl(geolocationControl);
+	
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			//alert('您的位置：'+r.point.lng+','+r.point.lat);
+			
+			var obj1 = document.getElementById("pj");
+			obj1.innerText= r.point.lng.toPrecision(10);
+			var obj2 = document.getElementById("pw");
+			obj2.innerText= r.point.lat.toPrecision(10);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+	function paizhao1(){
+		var inputBox = document.getElementById("image1");
+		var img = document.getElementById("img1");
+		inputBox.addEventListener("change",function(){
+			var reader = new FileReader();
+			reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			reader.onload = function(){
+			  	//读取完成后，将结果赋值给img的src
+			  	img.src = this.result
+			}
+		})
+	}
+	
+	function chongzhi(){
+		location.replace(location.href);
+	}
+	
+	$(document).ready(function(){
+		   $('#upload1').click(function(){ 
+		       $('#image1').click()
+		   });
+		});
+</script>

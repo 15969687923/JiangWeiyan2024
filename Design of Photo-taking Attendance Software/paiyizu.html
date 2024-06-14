@@ -1,0 +1,510 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.js"></script>
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<link href="css/mui.min.css" rel="stylesheet"/>
+	<title>多图识别</title>
+	<script>
+		(function tishi(){
+			alert("请按顺序拍照！照片处理需要时间请耐心！")
+		}());
+	</script>
+	<script>
+		function chongzhi(){
+			location.replace(location.href);
+		}
+	</script>
+	<style>
+		.lan1{
+				background:#09C5F7;
+			}
+			.biao1{
+				color:white;
+			}
+			.zhengti{
+				position: relative;
+				top:45px;
+			}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav mui-bar-transparent lan1" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+		<h1 class="mui-title biao1">单图签到</h1>
+			<a href="javascript:window.opener=null;window.close();"><span class="mui-icon mui-icon-left-nav"></span></a>
+	</header>
+	<div class="zhengti">
+	<div>
+		<form class="mui-input-group" action="duotushibie.php" method="post">
+		    <div id="tupian">
+		    	<div class="mui-input-row" style="height: 30%;">
+			    	<label>目标图片
+			    	<input type="file" id='image1' accept="image/*" capture='camera' onclick="paizhao1()">
+			    	</label>
+			    	<!--<button type="button" class="mui-btn mui-btn-primary" style="float: left;">蓝色</button>-->
+			    	<img name="mu" src="1.jpg" style="height: 90%;width: height;" id="img1"/>
+			    </div>
+			    
+		    </div>
+		    
+		    <div class="mui-button-row">
+		        <button type="submit" class="mui-btn mui-btn-primary" style="width: 40%;" onmousedown="caonima();" >提交</button>
+		        <button type="button" class="mui-btn mui-btn-danger" style="width: 40%;">重置</button>
+		    </div>
+		</form>
+	</div>
+	</div>
+
+	<script>
+		(function tushu(){
+			var i = window.location.search;
+			i = Number(decodeURI(i.substr(1).split('&')[0]))+1;
+//			alert(i);
+			if(i==2){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				    	+ "<input type=hidden name=\"mu" + k + "\" id=\"mu" + k + "\">"
+				        + "</div>";;
+				        
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==3){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				    	+ "<input type=hidden name=\"mu" + k + "\" id=\"mu" + k + "\">"
+				        + "</div>";;
+				        
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==4){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				    	+ "<input type=hidden name=\"mu" + k + "\" id=\"mu" + k + "\">"
+				        + "</div>";;
+				       
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==5){
+				var x="";
+				for (k=1;k<i;k++) {
+
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				    	+ "<input type=hidden name=\"mu" + k + "\" id=\"mu" + k + "\">"
+				        + "</div>";;
+				       
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==6){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				    	+ "<input type=hidden name=\"mu" + k + "\" id=\"mu" + k + "\">"
+				        + "</div>";;
+				        
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==7){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==8){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==9){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==10){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==11){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==12){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+			if(i==13){
+				var x="";
+				for (k=1;k<i;k++) {
+					x=x+"<div class=\"mui-input-row\" style=\"height: 30%;\">"
+						+ "<label>提交图片" + k
+						+ "<button id=\"xupload" + k + "\" type=\"button\" class=\"mui-btn-primary mui-btn-outlined\" style=\"width: 6em;\" onclick=\"paizhao" + k + "()\">拍照</button>"
+						+ "<button id=\"upload" + k + "\" type=\"button\" style=\"display:none;\">拍照</button>"
+						+ "<input style=\"display: none;\" type=\"file\" id=\'image" + k + "\' accept=\"image/*\" capture=\'camera\'>"
+				    	+ "</label>"
+				    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\" id=\"img" +k+ "\"/>"
+				        + "</div>";;
+				}
+				document.getElementById("tupian").innerHTML=x;
+			}
+
+		}());
+		
+	//	var x="<div class=\"mui-input-row\" style=\"height: 30%;\">"
+	//					+ "<label>目标图片" + "i"
+	//			    	+ "<button type=\"button\" class=\"mui-btn mui-btn-primary\" style=\"float: left; width: 6em;\" >拍照</button>"
+	//			    	+ "</label>"
+	//			    	+ "<img src=\"1.jpg\" style=\"height: 90%;width: height;\"/>"
+	//			        + "</div>";
+	//	for (k=2;k<i;k++) {
+	//		x=x+x;
+	//	}
+	//	document.getElementById("tupian").innerHTML=x;
+	
+//	var file = document.querySelector('input');
+//      if (getIos()) {
+//          file.removeAttribute("capture");
+//      }
+//      function getIos() {
+//          var ua=navigator.userAgent.toLowerCase();
+//          if (ua.match(/iPhone\sOS/i) == "iphone os") {
+//              return true;
+//          } else {
+//              return false;
+//          }
+//      }
+        
+	var urls=[15];
+
+		function paizhao1(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload1').click();
+				var inputBox = document.getElementById("image1");
+				var img = document.getElementById("img1");
+				inputBox.addEventListener("change",function(){
+				  var reader = new FileReader();
+				  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+				  reader.onload = function(){
+				    //读取完成后，将结果赋值给img的src
+				    img.src = this.result
+				  }
+				})
+		}
+		function paizhao2(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload2').click();
+				var inputBox = document.getElementById("image2");
+				var img = document.getElementById("img2");
+				inputBox.addEventListener("change",function(){
+				  var reader = new FileReader();
+				  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+				  reader.onload = function(){
+				    //读取完成后，将结果赋值给img的src
+				    img.src = this.result
+				  }
+				})
+		}
+		function paizhao3(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload3').click();
+				var inputBox = document.getElementById("image3");
+				var img = document.getElementById("img3");
+				inputBox.addEventListener("change",function(){
+				  var reader = new FileReader();
+				  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+				  reader.onload = function(){
+				    //读取完成后，将结果赋值给img的src
+				    img.src = this.result
+				  }
+				})
+		}
+		function paizhao4(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload4').click();
+			var inputBox = document.getElementById("image4");
+			var img = document.getElementById("img4");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao5(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload5').click();
+			var inputBox = document.getElementById("image5");
+			var img = document.getElementById("img5");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao6(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload6').click();
+			var inputBox = document.getElementById("image6");
+			var img = document.getElementById("img6");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao7(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload7').click();
+			var inputBox = document.getElementById("image7");
+			var img = document.getElementById("img7");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao8(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload8').click();
+			var inputBox = document.getElementById("image8");
+			var img = document.getElementById("img8");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao9(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload9').click();
+			var inputBox = document.getElementById("image9");
+			var img = document.getElementById("img9");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao10(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload10').click();
+			var inputBox = document.getElementById("image10");
+			var img = document.getElementById("img10");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao11(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload11').click();
+			var inputBox = document.getElementById("image11");
+			var img = document.getElementById("img11");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		function paizhao12(){
+//			var i=Number(document.getElementById('tushu').value);
+			$('#upload12').click();
+			var inputBox = document.getElementById("image12");
+			var img = document.getElementById("img12");
+			inputBox.addEventListener("change",function(){
+			  var reader = new FileReader();
+			  reader.readAsDataURL(inputBox.files[0]);//发起异步请求
+			  reader.onload = function(){
+			    //读取完成后，将结果赋值给img的src
+			    img.src = this.result
+			  }
+			})
+		}
+		
+		$(document).ready(function(){
+		   $('#upload1').click(function(){ 
+		       $('#image1').click()
+		   });
+		   $('#upload2').click(function(){ 
+		       $('#image2').click()
+		   });
+		   $('#upload3').click(function(){ 
+		       $('#image3').click()
+		   });
+		   $('#upload4').click(function(){ 
+		       $('#image4').click()
+		   });
+		   $('#upload5').click(function(){ 
+		       $('#image5').click()
+		   });
+		   $('#upload6').click(function(){ 
+		       $('#image6').click()
+		   });
+		   $('#upload7').click(function(){ 
+		       $('#image7').click()
+		   });
+		   $('#upload8').click(function(){ 
+		       $('#image8').click()
+		   });
+		   $('#upload9').click(function(){ 
+		       $('#image9').click()
+		   });
+		   $('#upload10').click(function(){ 
+		       $('#image10').click()
+		   });
+		   $('#upload11').click(function(){ 
+		       $('#image11').click()
+		   });
+		   $('#upload12').click(function(){ 
+		       $('#image12').click()
+		   });
+		});
+	</script>
+	<script>//接受图片
+		(function(){
+//			var perimeters = window.location.search;
+//			perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+			
+			var num=JSON.parse(window.sessionStorage.getItem("num"));
+			//alert(num);
+
+			for (k=1;k<=num;k++) {
+				//alert(k);
+				urls[k]=JSON.parse(window.sessionStorage.getItem("url" + k));
+				//alert(urls[k]);
+				document.getElementById("img" + k).src=urls[k];
+			}
+
+		}());
+	</script>
+</body>
+<script>
+	function caonima(){
+				var i = window.location.search;
+				i = Number(decodeURI(i.substr(1).split('&')[0]))+1;
+				for(k=1;k<i;k++){
+				var t = document.getElementById("img"+k).src;		
+				document.getElementById("mu"+k).value = String(t);
+				
+			}
+		}
+</script>
+</html>

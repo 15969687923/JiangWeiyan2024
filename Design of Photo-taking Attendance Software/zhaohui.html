@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			
+			.zhengti{
+				position:relative;
+				top:90px;
+			}
+			.an2{
+				position:relative;
+				top:20px;
+			}
+			.an1{
+				text-align:center;
+				float:left;
+			}
+			.yan{
+				width:300px;
+				float:left;
+			}
+			.bai1{
+				background: white;
+			}
+			.yan{
+				background: white;
+			}
+			.xian{
+				margin:0px;
+				padding:0px;
+			}
+			.an2{
+				width:300px;
+
+			}
+			.anwei{
+				text-align:center;
+			}
+			.an3{
+				width:300px;
+			}
+			.anwei2{
+				text-align:center;
+				position:relative;
+				top:30px;
+			}
+		</style>
+	</head>
+	<body>
+		<!--///这里写内容-->
+			<header class="mui-bar mui-bar-nav mui-bar-transparent" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+	<h1 class="mui-title">修改密码</h1>
+				<a href="登录.html"><span class="mui-icon mui-icon-left-nav"></span></a>
+</header>
+<div class="zhengti">
+	<form action="zhaohui.php" method="post" onsubmit="fun()">
+	<div class="bai1">
+	<div class="mui-input-row">
+	<label>电话：</label>
+	<input type="tel" id="1" name="dianhuahao" class="mui-input-clear wen1" placeholder="电话号码">
+</div>
+		<hr class="xian">
+
+	<div class="mui-input-row">
+	<label>新密码：</label>
+	<input type="password" id="3" name="mima" class="mui-input-clear wen1" placeholder="密码">
+</div>
+		<hr class="xian">
+	<div class="mui-input-row">
+	<label>确认密码：</label>
+	<input type="password" id="4" class="mui-input-clear wen1" placeholder="密码">
+</div>
+		<hr class="xian">
+<div class="yan">
+	<div class="mui-input-row">
+	<label>验证码：</label>
+	<input type="number" id="2" class="mui-input-clear wen2" placeholder="     手机验证码">
+</div>
+</div>
+<div class="an1">
+<button type="button" class="mui-btn mui-btn-grey ">发送</button>
+</div>
+	</div>
+
+	<div class="anwei">
+		<button type="submit" class="mui-btn mui-btn-primary an2" >修改密码</button>
+	</div>
+	<div class="anwei2">
+		<button type="button" class="mui-btn mui-btn-danger an3" onclick="javascrtpt:window.location.href='denglu.html'"> 返回</button>
+	</div>
+	</form>
+</div>
+
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		function fun(){
+
+			var pa=document.getElementById("3").value;
+			var pb=document.getElementById("4").value;
+			var ppa=document.getElementById("3").value.length;
+			var ppb=document.getElementById("4").value.length;
+			if (pa==""||pb==""){
+				alert("密码不能为空");
+				return false;
+			}
+			else if(pa!=pb){
+				alert("两次密码不一致!");
+				return false;
+			}
+			if(ppa<6){
+				alert("密码太短!");
+				return false;
+			}
+			else if(ppa>16){
+				alert("密码太长!");
+				return false;
+			}
+
+			var aa=document.getElementById(1).value;
+			var ab=document.getElementById(2).value;
+			var ac=document.getElementById(3).value;
+			var ad=document.getElementById(4).value;
+
+			if(aa==""||ab==""||ac==""||ad==""){
+				alert("存在未填写项！");
+				return false;
+			}
+			window.location.href="denglu.html";
+			return true;
+		}
+	</script>
+</html>
+<!--该页面生成由SX html5全栈编辑器制作。全中文专业级编辑器、可开发微信、支付宝、百度小程序，安卓、IOS APP、响应式网站、PHP、软件界面UI等！-->

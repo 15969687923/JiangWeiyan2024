@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="html5plus://ready"></script>
+		
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.biaoti {
+	background: Blue;
+}
+			.anniu{
+				text-align:center;
+				position:relative;
+				top:30px;
+			}
+			.zhengti{
+				position: relative;
+				top:80px;
+
+			}
+			.an1{
+				width:300px;
+			}
+			.wen1{
+				background:white;
+			}
+			.nav{
+				position: relative;
+				top:30px;
+			}
+			.nav li{
+				list-style-type:none;
+				width:147px;
+				float:left;
+			}
+			.end{
+				matgin:auto;
+				position: relative;
+				top:380px;
+				text-align:center;
+				clear: both;
+			}
+			.copy{
+
+				text-align:center;
+			}
+			.bai1{
+				background: white;
+			}
+			.you{
+				text-align:right;
+			}
+		</style>
+	</head>
+	<body>
+		<!--///这里写内容-->
+		<header class="mui-bar mui-bar-nav mui-bar-transparent" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+	<h1 class="mui-title">欢迎使用图签</h1>
+</header>
+		<form id="mm" method="post" action='denglu.php'>
+		
+<div class="zhengti">
+	<div class="bai1">
+<div class="mui-input-row zi1">
+	<label>手机号：</label>
+	<input type="number" name="phone" id="user" class="mui-input-clear wen1" placeholder="手机号/学号">
+</div>
+<hr>
+<div class="mui-input-row zi1">
+	<label>密码：</label>
+	<input type="password" id="password" name="password" class="mui-input-clear wen1" placeholder="密码">
+</div>
+
+	</div>
+<div class="anniu">
+<button type="submit" class="mui-btn mui-btn-primary an1" onclick="fun()">登录</button>
+</div>
+		</form>
+		
+			
+
+		
+<div class="nav">
+<ul>
+
+	    <li><a href="zhuce.html">注册账户</a></li>
+	<div class="you">
+	 	<li ><a href="zhaohui.html">忘记密码</a></li>
+	</div>
+</ul>
+<div>
+</div>
+<div class="end">
+	<p class=copy>
+		&copy;测试项目v1.0.0 测试账号：21228 密码：123</p>
+</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		function fun(){
+			var n=document.getElementById("user").value;
+			var p=document.getElementById("password").value;
+			///^\s+$/gi.test
+			var m ="";
+			if (document.getElementById("user").value==""||document.getElementById("password").value==""){
+				alert("用户名或密码不能为空!");
+				return false;
+			}
+
+			return true;
+		}
+	</script>
+</html>
+<!--该页面生成由SX html5全栈编辑器制作。全中文专业级编辑器、可开发微信、支付宝、百度小程序，安卓、IOS APP、响应式网站、PHP、软件界面UI等！-->

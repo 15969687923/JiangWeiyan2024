@@ -1,0 +1,15 @@
+<?php
+header("Content-type: text/html; charset=utf-8");
+$servername = "localhost:3306";
+$username = "root";
+$password = "861576789n";
+$dbname = "tuqiandb";
+ 
+// 创建连接
+$conn = new mysqli($servername, $username, $password,$dbname);
+ 
+// 检测连接
+if ($conn->connect_error) {
+    echo "连接失败！";
+	exit(0);
+}
